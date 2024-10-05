@@ -5,6 +5,7 @@ pub struct CarbonMeasurement {
     pub coordinate_x: f64,
     pub coordinate_y: f64,
     pub value: f32,
+    pub bump: u8,
 }
 
 
