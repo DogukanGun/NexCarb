@@ -2,11 +2,13 @@ package connectorHandlers
 
 import (
 	"SensorManager/database"
+	"SensorManager/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
 type ConnectionRequest struct {
-	Message string `json:"name"`
+	SenderWallet string `json:"sender_wallet"`
+	Message      string `json:"name"`
 }
 
 func ConnectRequestHandler(c *fiber.Ctx) error {
@@ -22,8 +24,9 @@ func ConnectRequestHandler(c *fiber.Ctx) error {
 	}
 	value := db.Read("active_connection")
 	if value == "" {
-		return c.Status(fiber.StatusForbidden).SendString("Active connection is not possible")
-	} else {
+		utils.RunWithHandlingError(db.Write("user_"+p.SenderWallet+"_status", "payment_pending"))
 		return c.Status(fiber.StatusAccepted).SendString("Please pay the fee first")
+	} else {
+		return c.Status(fiber.StatusForbidden).SendString("Active connection is not possible")
 	}
 }

@@ -9,13 +9,18 @@ import (
 )
 
 func main() {
-	app := fiber.New()
-	utils.RunWithHandlingError(app.Listen(":3000"))
+	app := fiber.New(fiber.Config{
+		AppName:           "connector",
+		EnablePrintRoutes: true,
+	})
 
 	//Connect database
 	//Connector endpoints must use this instance
 	db := connectorUtils.ConnectDatabase()
 	app.Use(connectormiddleware.DatabaseMiddleware(&db))
-
 	app.Post("/connect", connectorHandlers.ConnectRequestHandler)
+	app.Post("/payment", connectorHandlers.VerifyPaymentHandler)
+
+	utils.RunWithHandlingError(app.Listen("localhost:3000"))
+
 }
