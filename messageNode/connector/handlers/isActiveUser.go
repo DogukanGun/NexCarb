@@ -2,6 +2,7 @@ package connectorHandlers
 
 import (
 	"SensorManager/messageNode/database"
+	"github.com/gofiber/fiber/v2"
 )
 
 type IsActiveUserRequest struct {

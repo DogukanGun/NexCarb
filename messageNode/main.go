@@ -2,7 +2,7 @@ package main
 
 import (
 	env2 "SensorManager/messageNode/env"
-	"SensorManager/utils"
+	"SensorManager/messageNode/utils"
 	"context"
 	"os"
 )
