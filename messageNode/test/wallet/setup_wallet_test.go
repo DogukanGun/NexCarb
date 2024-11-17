@@ -1,7 +1,7 @@
 package wallet
 
 import (
-	"SensorManager/env"
+	"SensorManager/messageNode/env"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"

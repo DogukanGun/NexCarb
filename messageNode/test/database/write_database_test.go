@@ -1,7 +1,7 @@
 package database
 
 import (
-	"SensorManager/database"
+	"SensorManager/messageNode/database"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

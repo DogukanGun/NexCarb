@@ -1,11 +1,8 @@
 package main
 
 import (
-	"SensorManager/connector/handlers"
-	connectormiddleware "SensorManager/connector/middleware"
-	connectorUtils "SensorManager/connector/utils"
+	"SensorManager/messageNode/connector/utils"
 	"SensorManager/utils"
-	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
@@ -19,8 +16,10 @@ func main() {
 	db := connectorUtils.ConnectDatabase()
 	app.Use(connectormiddleware.DatabaseMiddleware(&db))
 	app.Post("/connect", connectorHandlers.ConnectRequestHandler)
-	app.Post("/payment", connectorHandlers.VerifyPaymentHandler)
+	app.Post("/payment", connectorHandlers.connectorHandlers.VerifyPaymentHandler)
+	app.Post("/send/message", connectorHandlers.SendMessageHandler)
+	app.Post("/user/active", connectorHandlers.IsActiveUserHandler)
 
+	//Run app
 	utils.RunWithHandlingError(app.Listen("localhost:3000"))
-
 }

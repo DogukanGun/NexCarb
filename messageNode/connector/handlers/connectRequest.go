@@ -1,9 +1,8 @@
 package connectorHandlers
 
 import (
-	"SensorManager/database"
+	"SensorManager/messageNode/database"
 	"SensorManager/utils"
-	"github.com/gofiber/fiber/v2"
 )
 
 type ConnectionRequest struct {

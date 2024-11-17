@@ -1,14 +1,13 @@
 package connectorHandlers
 
 import (
-	"SensorManager/database"
+	"SensorManager/messageNode/database"
 	"SensorManager/utils"
 	"context"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/gagliardetto/solana-go"
 	"github.com/gagliardetto/solana-go/programs/system"
 	"github.com/gagliardetto/solana-go/rpc"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"golang.org/x/time/rate"
 	"time"
 )
@@ -71,12 +70,19 @@ func VerifyPaymentHandler(c *fiber.Ctx) error {
 			if transfer, ok := inst.Impl.(*system.Transfer); ok &&
 				transfer.GetRecipientAccount().PublicKey.String() == p.SenderWallet {
 				utils.RunWithHandlingError(db.Write("user_"+p.SenderWallet+"_status", "approved"))
+				utils.RunWithHandlingError(db.Write("active_user", p.SenderWallet))
 				return c.Status(fiber.StatusAccepted).SendString("payment is verified")
 			}
 		}
 		return c.Status(fiber.StatusForbidden).SendString("payment is not verified")
 	} else {
-		//TODO handle with ethena
+		//TODO handle with ethena's sUSD
 		return c.SendStatus(500)
+	}
+}
+
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
 	}
 }

@@ -1,8 +1,8 @@
 package connectorUtils
 
 import (
-	"SensorManager/database"
-	"SensorManager/env"
+	"SensorManager/messageNode/database"
+	"SensorManager/messageNode/env"
 	"os"
 )
 

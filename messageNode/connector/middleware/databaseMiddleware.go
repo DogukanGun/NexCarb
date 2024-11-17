@@ -1,8 +1,7 @@
 package connectormiddleware
 
 import (
-	"SensorManager/database"
-	"github.com/gofiber/fiber/v2"
+	"SensorManager/messageNode/database"
 )
 
 func DatabaseMiddleware(db *database.Database) fiber.Handler {
