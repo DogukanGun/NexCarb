@@ -12,6 +12,7 @@ type RegisterNewNodeRequest struct {
 	NodeIP      string `json:"node_ip"`
 	OwnerPubKey string `json:"owner_pub_key"`
 	MessageFee  string `json:"message_fee"`
+	NodeType    string `json:"node_type"`
 }
 
 func RegisterNewNodeHandler(c *fiber.Ctx) error {
@@ -37,10 +38,11 @@ func RegisterNewNodeHandler(c *fiber.Ctx) error {
 		"nodeIP":      p.NodeIP,
 		"ownerPubkey": p.OwnerPubKey,
 		"messageFee":  p.MessageFee,
+		"nodeType":    p.NodeType,
 	}
 	commandTag, err := conn.Exec(
 		ctx,
-		"INSERT INTO nodes (node_ip,owner_pubkey,message_fee) VALUES (@nodeIP,@ownerPubkey,@messageFee)",
+		"INSERT INTO nodes (node_ip,owner_pubkey,message_fee,node_type) VALUES (@nodeIP,@ownerPubkey,@messageFee,@nodeType)",
 		args,
 	)
 	defer ctx.Done()
