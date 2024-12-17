@@ -1,9 +1,9 @@
 package connectorHandlers
 
 import (
+	"SensorManager/common/logger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jackc/pgx/v5"
-	"log"
 )
 
 type AssignmentAnswer struct {
@@ -35,12 +35,12 @@ func AnswerAssignments(c *fiber.Ctx) error {
 		// Execute the query
 		_, err := conn.Exec(c.Context(), query, p.NodeWalletAddress, element.UserContract)
 		if err != nil {
-			log.Println("Error updating assignment:", err)
+			logger.LogW("Error updating assignment:", err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"error": "Failed to update assignment",
 			})
 		}
-		//TODO Send answer to user
+		//TODO Send answer to oracle
 	}
 
 	return c.SendStatus(fiber.StatusAccepted)

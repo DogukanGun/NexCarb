@@ -1,7 +1,9 @@
 package connectorHandlers
 
 import (
+	"SensorManager/common/logger"
 	"context"
+	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jackc/pgx/v5"
 )
@@ -17,12 +19,11 @@ func RegisterDevice(c *fiber.Ctx) error {
 		return err
 	}
 
-	//TODO deploy a smart contract for this device
-
 	//Save instance to database
 	conn, ok := c.Locals("db").(*pgx.Conn)
 	if !ok {
-		//TODO log error
+		logger.LogE("database object is missing")
+		return errors.New("database object is missing")
 	}
 
 	ctx := context.Background()
@@ -39,7 +40,8 @@ func RegisterDevice(c *fiber.Ctx) error {
 	defer ctx.Done()
 
 	if err != nil {
-		// TODO log the error
+		logger.LogE("Error while inserting data into database", err)
+		return errors.New("database error")
 	}
 
 	if commandTag.Insert() {

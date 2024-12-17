@@ -1,6 +1,7 @@
 package bootsrapHandlers
 
 import (
+	"SensorManager/common/logger"
 	"context"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
@@ -30,7 +31,7 @@ func RegisterNewNodeHandler(c *fiber.Ctx) error {
 	defer func(conn *pgx.Conn, ctx context.Context) {
 		err := conn.Close(ctx)
 		if err != nil {
-			//TODO log error
+			logger.LogE("error while closing database connection", err)
 		}
 	}(conn, context.Background())
 	ctx := context.Background()

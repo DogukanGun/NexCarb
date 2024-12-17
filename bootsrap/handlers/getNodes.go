@@ -1,6 +1,7 @@
 package bootsrapHandlers
 
 import (
+	"SensorManager/common/logger"
 	"context"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
@@ -17,7 +18,7 @@ func GetNodesHandler(c *fiber.Ctx) error {
 	defer func(conn *pgx.Conn, ctx context.Context) {
 		err := conn.Close(ctx)
 		if err != nil {
-			//TODO log error
+			logger.LogE("error for closing context", err)
 		}
 	}(conn, context.Background())
 	ctx := context.Background()
@@ -30,10 +31,12 @@ func GetNodesHandler(c *fiber.Ctx) error {
 		var r RegisterNewNodeRequest
 		err := rows.Scan(&r.NodeIP, &r.MessageFee, &r.OwnerPubKey)
 		if err != nil {
+			logger.LogE("error while iterating cursor", err)
 		}
 		rowSlice = append(rowSlice, r)
 	}
 	if err := rows.Err(); err != nil {
+		logger.LogE("error while getting data from database", err)
 	}
 	return c.JSON(rowSlice)
 }

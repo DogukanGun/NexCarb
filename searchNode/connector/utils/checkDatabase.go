@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"SensorManager/common/logger"
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
@@ -15,6 +16,7 @@ func CheckDatabaseSetup(conn *pgx.Conn) error {
 			smart_contract TEXT
 		);`)
 	if err != nil {
+		logger.LogE("error while checking table existence,", err)
 		return err
 	}
 
@@ -39,12 +41,14 @@ func checkAndCreateTable(conn *pgx.Conn, tableName, createQuery string) error {
 	var exists bool
 	err := conn.QueryRow(context.Background(), checkTableQuery, tableName).Scan(&exists)
 	if err != nil {
+		logger.LogE("failed to check if table", tableName, " exists: ", err)
 		return fmt.Errorf("failed to check if table %s exists: %v", tableName, err)
 	}
 
 	if !exists {
 		_, err = conn.Exec(context.Background(), createQuery)
 		if err != nil {
+			logger.LogE("failed to check if table", tableName, " exists: ", err)
 			return fmt.Errorf("failed to create table %s: %v", tableName, err)
 		}
 	}

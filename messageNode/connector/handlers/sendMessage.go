@@ -1,6 +1,7 @@
 package connectorHandlers
 
 import (
+	"SensorManager/messageNode/data"
 	"SensorManager/messageNode/database"
 	rabbitMQ2 "SensorManager/messageNode/rabbitMQ"
 	"crypto/ed25519"
@@ -18,11 +19,6 @@ type SendMessageRequest struct {
 	Signature string `json:"signature"`
 }
 
-type Message struct {
-	Receiver string `json:"receiver"`
-	Message  string `json:"message"`
-}
-
 func SendMessageHandler(c *fiber.Ctx) error {
 	p := new(SendMessageRequest)
 	if err := c.BodyParser(p); err != nil {
@@ -32,7 +28,7 @@ func SendMessageHandler(c *fiber.Ctx) error {
 	if !ok {
 		return c.Status(fiber.StatusInternalServerError).SendString("Database connection error")
 	}
-	publicKey := db.Read("active_user")
+	publicKey := db.Read(database.ACTIVE_USER)
 	sigBytes, _ := base64.StdEncoding.DecodeString(p.Signature)
 	pubKeyBytes, _ := base64.StdEncoding.DecodeString(publicKey)
 	signatureVerification := ed25519.Verify(pubKeyBytes, []byte(p.Message), sigBytes)
@@ -74,7 +70,7 @@ func sendListenCommand(address string, message string) {
 		false,             // no-wait
 		nil,               // arguments
 	)
-	msg := Message{
+	msg := data.Message{
 		Receiver: address,
 		Message:  message,
 	}

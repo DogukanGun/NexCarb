@@ -1,7 +1,11 @@
 package main
 
 import (
+	"SensorManager/messageNode/data"
+	"SensorManager/messageNode/database"
 	"SensorManager/messageNode/rabbitMQ"
+	"SensorManager/messageNode/utils"
+	"encoding/json"
 	"fmt"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"time"
@@ -54,9 +58,13 @@ func main() {
 	// Listen for messages indefinitely
 	for msg := range messages {
 		if msg.MessageId == rabbitMQ.SendMessage {
-			//TODO Broadcast message
+			db := utils.ConnectDatabase()
+			user_wallet := db.Read(database.ACTIVE_USER)
+			var message data.Message
+			err = json.Unmarshal(msg.Body, &message)
+			print(user_wallet)
+			//TODO Send message to private node
 		} else if msg.MessageId == rabbitMQ.EndChat {
-
 		}
 	}
 }
