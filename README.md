@@ -45,6 +45,25 @@ There are **two types of nodes** used to collect data:
 
 ---
 
+## UI
+
+### Sensor Node UI
+- Sensor nodes have a **user interface (UI)** that users can access via a network connection.
+- This page displays:
+  - **Current energy consumption**
+  - **Collected data**  
+- **Future Goal**:  
+  The device will support multiple sensors that can be plugged in and out, allowing collection of **different types of data** from the vehicle.
+
+### Search Node CLI
+- Search nodes are controlled via a **command-line interface (CLI)**.
+- **User Perspective**:  
+  Users interact with a **quiz application**:
+  - Users can **create quizzes** and share them with friends.
+  - Friends solve the quizzes while the app silently fetches data in the background.
+
+---
+
 ## Earning Mechanism
 
 The network enables data collectors and contributors to earn revenue as follows:
