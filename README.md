@@ -62,6 +62,32 @@ There are **two types of nodes** used to collect data:
   - Users can **create quizzes** and share them with friends.
   - Friends solve the quizzes while the app silently fetches data in the background.
   - The code of the UI is located into [this repo](https://github.com/DogukanGun/NexQ)
+
+
+## Node Architecture
+
+### Sensor Node 
+- Communication in the **sensor node** is handled via **RabbitMQ**.
+- The process works as follows:
+  1. The **data fetcher** gathers data from the hardware.
+  2. The fetcher **publishes** the data with a unique sensor code.
+  3. The **data writer** catches this data and writes it inside the oracle.
+ 
+     ![NexCarb sensornode](https://github.com/user-attachments/assets/74a33496-668c-4ae5-990d-26f18dd59e4b)
+
+
+### Search Node
+- The **connector** acts as a gateway for the entire system:
+  - All types of requests are sent through the connector.
+  - When data is transmitted to the connector:
+    - It is sent to the **data layer**.
+    - The data is then shared with the **oracle** and, in the future, will also be shared with **AI Nodes**.
+- **Future Goal**:  
+  AI Nodes will query the Search Nodes to fetch required information **quickly** and efficiently.
+
+  ![NexCarb searchnode](https://github.com/user-attachments/assets/330ff059-c602-47cb-b865-67ca947a29eb)
+
+
 ---
 
 ## Earning Mechanism
