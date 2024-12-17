@@ -61,7 +61,7 @@ There are **two types of nodes** used to collect data:
   Users interact with a **quiz application**:
   - Users can **create quizzes** and share them with friends.
   - Friends solve the quizzes while the app silently fetches data in the background.
-
+  - The code of the UI is located into [this repo](https://github.com/DogukanGun/NexQ)
 ---
 
 ## Earning Mechanism
