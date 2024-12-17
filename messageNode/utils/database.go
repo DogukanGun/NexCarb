@@ -1,4 +1,4 @@
-package connectorUtils
+package utils
 
 import (
 	"SensorManager/messageNode/database"

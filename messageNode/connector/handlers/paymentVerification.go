@@ -28,7 +28,7 @@ func VerifyPaymentHandler(c *fiber.Ctx) error {
 		paymentVerified := payment.VerifyTheTransactions(p.TxHash, p.SenderWallet)
 		if paymentVerified {
 			utils.RunWithHandlingError(db.Write("user_"+p.SenderWallet+"_status", "approved"))
-			utils.RunWithHandlingError(db.Write("active_user", p.SenderWallet))
+			utils.RunWithHandlingError(db.Write(database.ACTIVE_USER, p.SenderWallet))
 			return c.Status(fiber.StatusAccepted).SendString("payment is verified")
 		} else {
 			return c.Status(fiber.StatusForbidden).SendString("payment is not verified")

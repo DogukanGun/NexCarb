@@ -1,0 +1,3 @@
+[submodule "searchNode/app"]
+	path = searchNode/app
+	url = https://github.com/DogukanGun/NexQ.git
